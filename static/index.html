@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0c10" />
+  <title>RED LIGHT RACER</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">RED LIGHT<span>RACER</span></div>
+      <div class="hud">
+        <div class="hud-cell"><span class="hud-label">SCORE</span><span id="hud-score" class="hud-val">0</span></div>
+        <div class="hud-cell"><span class="hud-label">STREAK</span><span id="hud-streak" class="hud-val">0</span></div>
+        <div class="hud-cell"><span class="hud-label">ROUND</span><span id="hud-round" class="hud-val">–</span></div>
+      </div>
+    </header>
+
+    <main id="stage">
+      <!-- BOOT / title -->
+      <section id="view-boot" class="view active">
+        <div class="boot-panel">
+          <h1 class="boot-title">RED LIGHT<br/>RACER</h1>
+          <p class="boot-sub">Cars stop. Light goes green. Who clears first?</p>
+          <button id="btn-start" class="btn primary">START ENGINE</button>
+          <p class="boot-hint">10 rounds · pick fast · streak pays</p>
+        </div>
+      </section>
+
+      <!-- WAITING -->
+      <section id="view-waiting" class="view">
+        <div class="waiting-pulse" id="waiting-msg">finding a red light…</div>
+      </section>
+
+      <!-- PROMPT / PENDING / REVEAL share the viewport -->
+      <section id="view-play" class="view">
+        <div class="viewport" id="viewport">
+          <img id="frame-img" alt="" draggable="false" />
+          <canvas id="overlay"></canvas>
+          <div id="green-flash" class="green-flash" hidden>GREEN LIGHT</div>
+          <div id="pending-banner" class="pending-banner" hidden>…and they're off</div>
+          <div id="countdown" class="countdown" hidden>
+            <svg viewBox="0 0 36 36">
+              <path class="ring-bg" d="M18 2.5 a 15.5 15.5 0 0 1 0 31 a 15.5 15.5 0 0 1 0 -31" />
+              <path id="ring-fg" class="ring-fg" d="M18 2.5 a 15.5 15.5 0 0 1 0 31 a 15.5 15.5 0 0 1 0 -31" />
+            </svg>
+            <span id="countdown-num">10</span>
+          </div>
+          <div id="spinner" class="spinner" hidden></div>
+        </div>
+        <p id="prompt-hint" class="prompt-hint">Tap the car you think wins</p>
+        <div id="result-bar" class="result-bar" hidden>
+          <div id="result-verdict" class="result-verdict"></div>
+          <div id="result-points" class="result-points"></div>
+          <button id="btn-next" class="btn primary">NEXT LIGHT</button>
+        </div>
+        <div id="void-card" class="void-card" hidden>
+          <p>No clean winner — round doesn't count</p>
+        </div>
+      </section>
+
+      <!-- GAMEOVER -->
+      <section id="view-gameover" class="view">
+        <div class="gameover-panel">
+          <h2>SESSION OVER</h2>
+          <div class="final-score"><span id="final-score">0</span></div>
+          <p class="best-streak">Best streak <span id="best-streak">0</span></p>
+          <form id="initials-form" class="initials-form" autocomplete="off">
+            <label for="initials">YOUR INITIALS</label>
+            <input id="initials" name="initials" maxlength="3" pattern="[A-Za-z]{3}" placeholder="AAA" required />
+            <button type="submit" class="btn primary">SUBMIT SCORE</button>
+          </form>
+          <div id="rank-msg" class="rank-msg" hidden></div>
+          <table id="leaderboard" class="leaderboard">
+            <thead><tr><th>#</th><th>TAG</th><th>SCORE</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <button id="btn-again" class="btn ghost">RACE AGAIN</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

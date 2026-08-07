@@ -1,0 +1,15 @@
+.git
+.gitignore
+.DS_Store
+.venv/
+venv/
+captures/
+tools/
+data/raw/
+data/tracks/
+**/__pycache__/
+*.pyc
+.env
+tests/
+*.md
+capture_park_ave_23.py

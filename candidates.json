@@ -1,0 +1,248 @@
+{
+  "thresholds": {
+    "mot_lo": 13.958709716796875,
+    "mot_hi": 22.710664749145508,
+    "occ_hi": 12.568274211883544,
+    "occ_floor": 11.394948959350586
+  },
+  "candidates": [
+    {
+      "green_index_global": 24,
+      "red_start_global": 19,
+      "red_len_frames": 5,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181123_627.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181125_628.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181127_633.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181129_636.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181131_639.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181133_644.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181133_644.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181135_649.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181137_654.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181139_656.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181141_661.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181143_666.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181145_671.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181147_674.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181149_679.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181151_684.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181153_689.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181155_693.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181157_696.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181159_701.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181201_706.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181203_708.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181205_713.jpg"
+      ],
+      "motion_at_green": 33.60524368286133,
+      "occupancy_at_green": 35.01905059814453
+    },
+    {
+      "green_index_global": 78,
+      "red_start_global": 67,
+      "red_len_frames": 11,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181311_823.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181313_828.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181315_829.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181317_833.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181319_834.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181321_835.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181321_835.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181323_837.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181325_841.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181327_846.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181329_850.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181331_854.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181333_858.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181335_863.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181337_864.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181339_867.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181341_871.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181343_875.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181345_880.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181347_885.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181349_886.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181351_891.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181353_892.jpg"
+      ],
+      "motion_at_green": 55.02348709106445,
+      "occupancy_at_green": 37.845462799072266
+    },
+    {
+      "green_index_global": 129,
+      "red_start_global": 113,
+      "red_len_frames": 16,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181454_009.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181456_010.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181458_015.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181500_019.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181502_021.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181504_026.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181504_026.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181506_031.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181508_033.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181510_038.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181512_039.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181514_042.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181516_042.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181518_047.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181520_052.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181522_052.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181524_058.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181526_063.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181528_063.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181530_068.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181532_071.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181534_075.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181536_080.jpg"
+      ],
+      "motion_at_green": 27.93376922607422,
+      "occupancy_at_green": 21.99243927001953
+    },
+    {
+      "green_index_global": 170,
+      "red_start_global": 156,
+      "red_len_frames": 14,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181616_151.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181618_153.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181620_155.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181622_158.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181624_163.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181626_166.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181626_166.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181628_169.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181630_172.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181632_175.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181634_178.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181636_179.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181638_180.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181640_183.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181642_185.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181644_190.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181646_195.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181648_198.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181650_199.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181652_204.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181654_205.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181656_207.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181658_210.jpg"
+      ],
+      "motion_at_green": 32.87882995605469,
+      "occupancy_at_green": 40.37520217895508
+    },
+    {
+      "green_index_global": 191,
+      "red_start_global": 186,
+      "red_len_frames": 5,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181658_210.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181700_213.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181702_214.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181704_215.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181706_218.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181708_224.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181708_224.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181710_229.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181712_234.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181714_239.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181716_242.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181718_246.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181720_250.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181722_255.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181724_258.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181726_261.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181728_263.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181730_267.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181732_268.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181734_268.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181736_270.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181738_275.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181740_280.jpg"
+      ],
+      "motion_at_green": 27.95393180847168,
+      "occupancy_at_green": 32.55261993408203
+    },
+    {
+      "green_index_global": 220,
+      "red_start_global": 197,
+      "red_len_frames": 23,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181756_306.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181758_307.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181800_307.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181802_309.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181804_311.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181806_315.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181806_315.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181808_319.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181810_320.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181812_324.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181814_329.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181816_333.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181818_335.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181820_336.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181822_341.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181824_341.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181826_342.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181828_344.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181830_349.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181832_350.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181834_355.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181836_360.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181838_363.jpg"
+      ],
+      "motion_at_green": 24.48447608947754,
+      "occupancy_at_green": 16.321874618530273
+    },
+    {
+      "green_index_global": 252,
+      "red_start_global": 231,
+      "red_len_frames": 21,
+      "prompt_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181900_405.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181902_408.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181904_413.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181906_418.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181908_423.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181910_424.jpg"
+      ],
+      "reveal_frames": [
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181910_424.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181912_424.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181914_429.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181916_434.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181918_439.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181920_442.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181922_447.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181924_447.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181926_452.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181928_457.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181930_459.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181932_463.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181934_468.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181936_472.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181938_476.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181940_479.jpg",
+        "captures/park_ave_23st_20260807_181047/frame_20260807_181942_484.jpg"
+      ],
+      "motion_at_green": 35.00413131713867,
+      "occupancy_at_green": 36.80282211303711
+    }
+  ]
+}
