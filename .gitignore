@@ -4,8 +4,26 @@ __pycache__/
 .venv/
 venv/
 .env
-data/raw/
-data/tracks/
-captures/
 *.egg-info/
 .pytest_cache/
+
+# Raw webcam dumps (large, regenerable)
+captures/
+data/raw/
+
+# Local labeling / track caches
+data/tracks/
+
+# Generated candidate scans (share curated demos like demo_set_1/ instead)
+candidates/
+candidates.json
+candidates_*.json
+candidates*_signals.npy
+*_signals.npy
+signals*.png
+mask.json
+sheets/
+
+# Ephemeral annotation / scoring previews
+camera/_preview/
+reports/

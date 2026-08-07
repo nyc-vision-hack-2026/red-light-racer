@@ -47,6 +47,11 @@ MIN_RED_FRAMES = 5    # at 0.5 fps this is 10s. Real reds run 20-60s.
 MIN_GREEN_FRAMES = 4  # need enough post-green frames to see a winner
 PRE_FRAMES = 6        # frames of prompt footage to keep before green
 POST_FRAMES = 16      # frames of reveal footage to keep after green
+# Motion hysteresis trips AFTER cars already start rolling. End the prompt this
+# many frames before detected green so "before" is still a stopped queue.
+PROMPT_END_MARGIN = 4  # ~8s at 0.5 fps
+# Also bias prompt toward mid-red (fraction of the way through the hold).
+PROMPT_RED_FRAC = 0.65
 
 MOT_LO_PCTL = 35      # hysteresis low edge  -> enter IDLE (stopped)
 MOT_HI_PCTL = 65      # hysteresis high edge -> enter ACTIVE (flowing)
@@ -301,15 +306,29 @@ def cmd_scan(args):
     rounds = []
     for c in cands:
         g = c["green_index"]
-        lo = max(0, g - PRE_FRAMES)
+        red_start = c["red_start"]
+        red_len = max(1, g - red_start)
+        # Prompt from deep in the red hold — not the onset frames where cars creep.
+        # Cap by (green - margin) and by ~65% through the red so we sit in the queue.
+        onset_cap = g - PROMPT_END_MARGIN
+        mid_cap = red_start + max(PRE_FRAMES, int(PROMPT_RED_FRAC * red_len))
+        prompt_hi = max(red_start + 1, min(onset_cap, mid_cap))
+        prompt_lo = max(red_start, prompt_hi - PRE_FRAMES)
+        if prompt_hi <= prompt_lo:
+            prompt_lo = red_start
+            prompt_hi = max(red_start + 1, min(g, red_start + PRE_FRAMES))
         hi = min(len(frames), g + POST_FRAMES)
+        # Reveal continues from the prompt freeze frame so Before→After is continuous
+        # (prompt ends mid-red; jumping to g-1 left a multi-frame hole).
+        reveal_lo = max(0, prompt_hi - 1)
         rounds.append({
             "green_index_global": g,
-            "red_start_global": c["red_start"],
+            "red_start_global": red_start,
             "red_len_frames": c["red_len"],
-            # prompt must END BEFORE green -- see note in the writeup
-            "prompt_frames": [frames[i] for i in range(lo, g)],
-            "reveal_frames": [frames[i] for i in range(g - 1, hi)],
+            "prompt_end_global": int(prompt_hi),
+            # prompt must END well BEFORE green onset — cars roll before mot_hi trips
+            "prompt_frames": [frames[i] for i in range(prompt_lo, prompt_hi)],
+            "reveal_frames": [frames[i] for i in range(reveal_lo, hi)],
             "motion_at_green": float(motion[g]),
             "occupancy_at_green": float(occupancy[g]),
         })

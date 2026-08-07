@@ -82,6 +82,59 @@ h1 {
   max-width: 18rem;
 }
 
+.dataset-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  animation: rise 0.55s ease-out 0.05s both;
+}
+
+.dataset-nav button {
+  appearance: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.dataset-nav button:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.dataset-meta { text-align: center; min-width: 0; }
+.dataset-id {
+  font-weight: 500;
+  font-size: 0.82rem;
+  word-break: break-all;
+}
+.dataset-sub {
+  color: var(--muted);
+  font-size: 0.68rem;
+  margin-top: 0.15rem;
+}
+
+.datasets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+  animation: rise 0.55s ease-out 0.06s both;
+}
+
+.datasets .chip.ds {
+  border-color: rgba(232, 163, 23, 0.35);
+}
+
 .picker {
   display: flex;
   flex-wrap: wrap;
