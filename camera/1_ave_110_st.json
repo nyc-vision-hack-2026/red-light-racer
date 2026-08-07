@@ -1,0 +1,38 @@
+{
+  "camera_id": "1_ave_110_st",
+  "frame_width": 352,
+  "frame_height": 240,
+  "staging_zone": [
+    [
+      43,
+      167
+    ],
+    [
+      285,
+      140
+    ],
+    [
+      205,
+      84
+    ],
+    [
+      54,
+      94
+    ]
+  ],
+  "finish_line": [
+    [
+      116,
+      239
+    ],
+    [
+      335,
+      208
+    ]
+  ],
+  "travel_direction": [
+    0.501,
+    0.8654
+  ],
+  "source_frame": "captures/1_ave_110_st_20260807_182523/frame_20260807_183024_017.jpg"
+}

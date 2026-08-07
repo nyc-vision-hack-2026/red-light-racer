@@ -1,37 +1,38 @@
 {
-  "camera_id": "cam_01",
+  "camera_id": "park_ave_23st",
   "frame_width": 352,
   "frame_height": 240,
   "staging_zone": [
     [
-      40,
-      140
+      55,
+      141
     ],
     [
-      200,
-      130
+      193,
+      136
     ],
     [
-      210,
-      200
+      180,
+      85
     ],
     [
-      30,
-      210
+      89,
+      87
     ]
   ],
   "finish_line": [
     [
-      260,
-      80
+      204,
+      232
     ],
     [
-      340,
-      100
+      16,
+      238
     ]
   ],
   "travel_direction": [
-    1.0,
-    -0.25
-  ]
+    0,
+    1
+  ],
+  "source_frame": "captures/park_ave_23st_20260807_181047/frame_20260807_181548_100.jpg"
 }

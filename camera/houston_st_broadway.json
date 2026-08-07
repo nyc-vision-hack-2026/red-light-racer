@@ -1,0 +1,38 @@
+{
+  "camera_id": "houston_st_broadway",
+  "frame_width": 352,
+  "frame_height": 240,
+  "staging_zone": [
+    [
+      35,
+      156
+    ],
+    [
+      167,
+      163
+    ],
+    [
+      161,
+      112
+    ],
+    [
+      93,
+      111
+    ]
+  ],
+  "finish_line": [
+    [
+      136,
+      239
+    ],
+    [
+      2,
+      222
+    ]
+  ],
+  "travel_direction": [
+    -0.3714,
+    0.9285
+  ],
+  "source_frame": "captures/houston_st_broadway_20260807_183830/frame_20260807_184601_806.jpg"
+}
