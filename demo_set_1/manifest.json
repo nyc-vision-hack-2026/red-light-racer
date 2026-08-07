@@ -1,0 +1,42 @@
+{
+  "name": "demo_set_1",
+  "camera_id": "houston_st_broadway",
+  "source_capture": "captures/houston_st_broadway_20260807_185109",
+  "interval_seconds": 2.0,
+  "thresholds": {
+    "mot_lo": 5.1830267906188965,
+    "mot_hi": 27.162105560302734,
+    "occ_hi": 20.79971227645874,
+    "occ_floor": 20.163820266723633
+  },
+  "camera_file": "camera.json",
+  "candidates": [
+    {
+      "id": "cand_000",
+      "dir": "cand_000",
+      "meta": "cand_000/meta.json",
+      "green_index_global": 15,
+      "red_len_frames": 15,
+      "n_before": 6,
+      "n_after": 23
+    },
+    {
+      "id": "cand_001",
+      "dir": "cand_001",
+      "meta": "cand_001/meta.json",
+      "green_index_global": 59,
+      "red_len_frames": 19,
+      "n_before": 6,
+      "n_after": 24
+    },
+    {
+      "id": "cand_002",
+      "dir": "cand_002",
+      "meta": "cand_002/meta.json",
+      "green_index_global": 105,
+      "red_len_frames": 19,
+      "n_before": 6,
+      "n_after": 24
+    }
+  ]
+}
