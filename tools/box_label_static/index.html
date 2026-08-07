@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Box Labeler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <main>
+    <header>
+      <div>
+        <p class="eyebrow">vehicle tracks</p>
+        <h1>Box Labeler</h1>
+      </div>
+      <div class="meta" id="meta">loading…</div>
+    </header>
+
+    <nav class="picker" id="windows" aria-label="Windows"></nav>
+
+    <section class="workspace">
+      <div class="canvas-wrap">
+        <canvas id="canvas"></canvas>
+        <div class="hud" id="hud"></div>
+      </div>
+
+      <aside class="side">
+        <div class="block">
+          <h2>Tracks</h2>
+          <div id="track-list" class="track-list"></div>
+          <button type="button" id="new-track" class="btn">+ new track</button>
+        </div>
+        <div class="block help">
+          <h2>Keys</h2>
+          <p><kbd>drag</kbd> draw / move box</p>
+          <p><kbd>←</kbd><kbd>→</kbd> prev / next frame</p>
+          <p><kbd>[</kbd><kbd>]</kbd> prev / next window</p>
+          <p><kbd>1</kbd>–<kbd>9</kbd> select track</p>
+          <p><kbd>n</kbd> new track</p>
+          <p><kbd>c</kbd> copy boxes from prev frame</p>
+          <p><kbd>⌫</kbd> delete box on this frame</p>
+          <p><kbd>e</kbd> export tracks JSON</p>
+        </div>
+        <div class="block">
+          <button type="button" id="copy-prev" class="btn ghost">copy prev frame</button>
+          <button type="button" id="export" class="btn primary">export tracks</button>
+          <p class="status" id="status"></p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="scrub">
+      <button type="button" id="prev" aria-label="Previous frame">←</button>
+      <input type="range" id="scrubber" min="0" max="0" value="0" />
+      <button type="button" id="next" aria-label="Next frame">→</button>
+      <span id="frame-label" class="frame-label">—</span>
+    </footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Candidate Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <main>
+    <header>
+      <div class="brand">
+        <p class="eyebrow">red → green</p>
+        <h1>Candidates</h1>
+      </div>
+      <div class="meta" id="meta">loading…</div>
+    </header>
+
+    <nav class="picker" id="picker" aria-label="Candidates"></nav>
+
+    <section class="stage" id="stage" hidden>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Before</h2>
+          <span class="badge stop">queued</span>
+          <span class="frame-idx" id="prompt-idx">—</span>
+        </div>
+        <div class="viewport">
+          <img id="prompt-img" alt="Prompt loop" />
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>After</h2>
+          <span class="badge go">green</span>
+          <span class="frame-idx" id="reveal-idx">—</span>
+        </div>
+        <div class="viewport">
+          <img id="reveal-img" alt="Reveal loop" />
+        </div>
+      </div>
+    </section>
+
+    <footer class="controls" id="controls" hidden>
+      <button type="button" id="prev" aria-label="Previous candidate">←</button>
+      <div class="detail" id="detail"></div>
+      <button type="button" id="next" aria-label="Next candidate">→</button>
+      <label class="speed">
+        ms/frame
+        <input type="range" id="speed" min="80" max="800" step="20" value="280" />
+      </label>
+    </footer>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
