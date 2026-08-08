@@ -201,10 +201,73 @@
     };
   }
 
+  function drawGeometry(source) {
+    if (!source || !state.naturalW || !state.naturalH) return;
+    const rect = mediaEl().getBoundingClientRect();
+    const sx = rect.width / state.naturalW;
+    const sy = rect.height / state.naturalH;
+
+    const staging = source.staging_zone;
+    if (staging && staging.length >= 3) {
+      ctx.save();
+      ctx.beginPath();
+      staging.forEach((pt, i) => {
+        const x = pt[0] * sx;
+        const y = pt[1] * sy;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = "rgba(62, 200, 255, 0.12)";
+      ctx.fill();
+      ctx.strokeStyle = "#3ec8ff";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 5]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      // label near centroid
+      let cx = 0;
+      let cy = 0;
+      for (const pt of staging) {
+        cx += pt[0] * sx;
+        cy += pt[1] * sy;
+      }
+      cx /= staging.length;
+      cy /= staging.length;
+      ctx.font = "700 11px 'IBM Plex Mono', monospace";
+      ctx.fillStyle = "#3ec8ff";
+      ctx.fillText("START", cx - 18, cy);
+      ctx.restore();
+    }
+
+    const fl = source.finish_line;
+    if (fl && fl.length >= 2) {
+      const x0 = fl[0][0] * sx;
+      const y0 = fl[0][1] * sy;
+      const x1 = fl[1][0] * sx;
+      const y1 = fl[1][1] * sy;
+      ctx.save();
+      ctx.setLineDash([8, 6]);
+      ctx.strokeStyle = "#b8f000";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font = "700 11px 'IBM Plex Mono', monospace";
+      ctx.fillStyle = "#b8f000";
+      ctx.fillText("FINISH", (x0 + x1) / 2 - 22, Math.min(y0, y1) - 6);
+      ctx.restore();
+    }
+  }
+
   function drawPromptOverlay(frameAbs, opts = {}) {
     const rect = mediaEl().getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width, rect.height);
     if (!state.round) return;
+
+    drawGeometry(state.round);
 
     for (const cand of state.round.candidates) {
       const box = boxAtFrame(cand, frameAbs);
@@ -243,21 +306,7 @@
     ctx.clearRect(0, 0, rect.width, rect.height);
     if (!state.reveal) return;
 
-    // finish line
-    const fl = state.reveal.finish_line;
-    if (fl && fl.length >= 2) {
-      const sx = rect.width / state.naturalW;
-      const sy = rect.height / state.naturalH;
-      ctx.save();
-      ctx.setLineDash([8, 6]);
-      ctx.strokeStyle = "#b8f000";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(fl[0][0] * sx, fl[0][1] * sy);
-      ctx.lineTo(fl[1][0] * sx, fl[1][1] * sy);
-      ctx.stroke();
-      ctx.restore();
-    }
+    drawGeometry(state.reveal);
 
     const ffi = state.reveal.finish_frame_index || {};
     for (const cand of state.reveal.candidates) {
@@ -378,8 +427,11 @@
     const hasVideo = !!(state.round.video && state.round.video.url);
     const urls = state.round.frames;
 
+    // Always reset media mode for this round — leftover video mode from a prior
+    // round would skip JPEG preload and crash on rounds without video.
+    setMediaMode(hasVideo);
+
     if (hasVideo) {
-      setMediaMode(true);
       try {
         await loadVideo(state.round.video.url);
         state.naturalW = video.videoWidth || 1348;
@@ -392,7 +444,6 @@
     }
 
     if (!state.usingVideo) {
-      setMediaMode(false);
       try {
         state.images = await preload(urls);
       } catch (e) {
@@ -647,6 +698,8 @@
         console.error(e);
         setMediaMode(false);
       }
+    } else {
+      setMediaMode(false);
     }
 
     if (state.usingVideo && vmeta) {

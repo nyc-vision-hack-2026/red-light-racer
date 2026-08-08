@@ -107,7 +107,11 @@ def prompt_view(round_data: dict[str, Any], frame_url_prefix: str = "/frames/") 
         "frames": frame_urls,
         "green_index": green,
         "candidates": candidates,
+        "finish_line": round_data["finish_line"],
     }
+    staging = round_data.get("staging_zone")
+    if isinstance(staging, list) and len(staging) >= 3:
+        out["staging_zone"] = staging
     # Optional hybrid playback: client may play MP4 while overlays stay frame-indexed.
     video = round_data.get("video")
     if isinstance(video, dict) and video.get("url"):
@@ -159,6 +163,9 @@ def reveal_view(
         "finish_line": round_data["finish_line"],
         "finish_frame_index": finish,
     }
+    staging = round_data.get("staging_zone")
+    if isinstance(staging, list) and len(staging) >= 3:
+        out["staging_zone"] = staging
     video = round_data.get("video")
     if isinstance(video, dict) and video.get("url"):
         out["video"] = {

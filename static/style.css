@@ -99,7 +99,18 @@ html, body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+}
+.boot-quote {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  max-width: 36ch;
+  margin: 0 auto 16px;
+  opacity: 0.9;
 }
 .boot-sub {
   color: var(--muted);
@@ -196,9 +207,9 @@ html, body {
 }
 
 .green-flash {
+  display: none !important;
   position: absolute;
   inset: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--display);
