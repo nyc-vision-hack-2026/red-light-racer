@@ -1,38 +1,38 @@
 {
-  "camera_id": "video_demo",
+  "camera_id": "r_video_001",
   "frame_width": 1348,
   "frame_height": 902,
   "staging_zone": [
     [
-      480,
-      650
+      669,
+      636
     ],
     [
-      980,
-      650
+      1019,
+      653
     ],
     [
-      1000,
-      860
+      972,
+      883
     ],
     [
-      450,
-      860
+      434,
+      851
     ]
   ],
   "finish_line": [
     [
-      480,
-      545
+      820,
+      468
     ],
     [
-      1000,
-      575
+      1036,
+      474
     ]
   ],
   "travel_direction": [
-    0,
-    -1
+    0.4363,
+    -0.8998
   ],
-  "notes": "Foreground outbound lanes from screen recording crop; green ~ source 0:33"
+  "source_frame": "data/frames/r_video_001/009.jpg"
 }
