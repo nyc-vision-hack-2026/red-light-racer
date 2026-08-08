@@ -38,6 +38,8 @@
     frameIndex: 0,
     naturalW: 352,
     naturalH: 240,
+    usingVideo: false,
+    videoRaf: null,
   };
 
   const $ = (id) => document.getElementById(id);
@@ -49,8 +51,61 @@
   };
 
   const img = $("frame-img");
+  const video = $("frame-video");
   const canvas = $("overlay");
   const ctx = canvas.getContext("2d");
+
+  function mediaEl() {
+    return state.usingVideo ? video : img;
+  }
+
+  function setMediaMode(useVideo) {
+    state.usingVideo = !!useVideo;
+    img.hidden = state.usingVideo;
+    video.hidden = !state.usingVideo;
+    if (!state.usingVideo) {
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+    }
+  }
+
+  function frameFromTime(t, fps) {
+    return Math.max(0, Math.round(Number(t) * Number(fps || 0.5)));
+  }
+
+  function stopVideoLoop() {
+    if (state.videoRaf) {
+      cancelAnimationFrame(state.videoRaf);
+      state.videoRaf = null;
+    }
+    try {
+      video.pause();
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  function loadVideo(url) {
+    return new Promise((resolve, reject) => {
+      const onReady = () => {
+        cleanup();
+        resolve(video);
+      };
+      const onErr = () => {
+        cleanup();
+        reject(new Error("video " + url));
+      };
+      const cleanup = () => {
+        video.removeEventListener("loadeddata", onReady);
+        video.removeEventListener("error", onErr);
+      };
+      video.addEventListener("loadeddata", onReady);
+      video.addEventListener("error", onErr);
+      video.src = url;
+      video.load();
+    });
+  }
 
   function showView(name) {
     Object.values(views).forEach((v) => v.classList.remove("active"));
@@ -84,6 +139,7 @@
     }
     if (state.countdownTimer) clearInterval(state.countdownTimer);
     state.pollTimer = state.animTimer = state.countdownTimer = null;
+    stopVideoLoop();
   }
 
   function preload(urls) {
@@ -101,7 +157,8 @@
   }
 
   function syncCanvasSize() {
-    const rect = img.getBoundingClientRect();
+    const el = mediaEl();
+    const rect = el.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
     canvas.width = Math.round(rect.width * dpr);
     canvas.height = Math.round(rect.height * dpr);
@@ -111,7 +168,8 @@
   }
 
   function scaleBox(box) {
-    const rect = img.getBoundingClientRect();
+    const el = mediaEl();
+    const rect = el.getBoundingClientRect();
     const sx = rect.width / state.naturalW;
     const sy = rect.height / state.naturalH;
     return {
@@ -144,7 +202,7 @@
   }
 
   function drawPromptOverlay(frameAbs, opts = {}) {
-    const rect = img.getBoundingClientRect();
+    const rect = mediaEl().getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width, rect.height);
     if (!state.round) return;
 
@@ -181,7 +239,7 @@
   }
 
   function drawRevealOverlay(frameAbs, finishOrder) {
-    const rect = img.getBoundingClientRect();
+    const rect = mediaEl().getBoundingClientRect();
     ctx.clearRect(0, 0, rect.width, rect.height);
     if (!state.reveal) return;
 
@@ -317,25 +375,78 @@
     $("countdown").hidden = true;
     $("spinner").hidden = false;
 
+    const hasVideo = !!(state.round.video && state.round.video.url);
     const urls = state.round.frames;
-    try {
-      state.images = await preload(urls);
-    } catch (e) {
-      console.error(e);
-      state.images = [];
+
+    if (hasVideo) {
+      setMediaMode(true);
+      try {
+        await loadVideo(state.round.video.url);
+        state.naturalW = video.videoWidth || 1348;
+        state.naturalH = video.videoHeight || 902;
+        state.images = await preload(urls).catch(() => []);
+      } catch (e) {
+        console.error(e);
+        setMediaMode(false);
+      }
     }
+
+    if (!state.usingVideo) {
+      setMediaMode(false);
+      try {
+        state.images = await preload(urls);
+      } catch (e) {
+        console.error(e);
+        state.images = [];
+      }
+      if (state.images.length) {
+        state.naturalW = state.images[0].naturalWidth || 352;
+        state.naturalH = state.images[0].naturalHeight || 240;
+      }
+    }
+
     $("spinner").hidden = true;
 
-    if (state.images.length) {
-      state.naturalW = state.images[0].naturalWidth || 352;
-      state.naturalH = state.images[0].naturalHeight || 240;
-    }
-
-    // Play prompt at 2× real speed. Real fps is ~0.5 → 2s/frame; 2× → 1s/frame.
-    const realFps = state.round.fps || 0.5;
-    const frameMs = (1000 / realFps) / 2;
     const green = state.round.green_index;
     state.frameIndex = 0;
+
+    if (state.usingVideo) {
+      const vmeta = state.round.video;
+      const fps = vmeta.fps || state.round.fps || 0.5;
+      const greenT = Number(vmeta.green_time_sec);
+      video.currentTime = 0;
+      video.playbackRate = 1.5;
+      const tick = () => {
+        if (state.phase !== "PROMPT") return;
+        const t = video.currentTime;
+        const fi = Math.min(green, frameFromTime(t, fps));
+        state.frameIndex = fi;
+        syncCanvasSize();
+        drawPromptOverlay(fi);
+        if (t >= greenT - 0.05 || video.ended) {
+          video.pause();
+          video.currentTime = greenT;
+          state.frameIndex = green;
+          syncCanvasSize();
+          drawPromptOverlay(green);
+          $("green-flash").hidden = false;
+          setTimeout(() => {
+            $("green-flash").hidden = true;
+          }, 500);
+          startGuessWindow();
+          return;
+        }
+        state.videoRaf = requestAnimationFrame(tick);
+      };
+      const playP = video.play();
+      if (playP && playP.catch) playP.catch(() => {});
+      state.videoRaf = requestAnimationFrame(tick);
+      return;
+    }
+
+    // JPEG slideshow fallback. Play prompt at 2× real speed.
+    const realFps = state.round.fps || 0.5;
+    const frameMs = 1000 / realFps / 2;
 
     const playLoop = () => {
       if (state.phase !== "PROMPT") return;
@@ -346,7 +457,6 @@
           syncCanvasSize();
           drawPromptOverlay(state.frameIndex);
         };
-        // if already cached
         if (img.complete) {
           syncCanvasSize();
           drawPromptOverlay(state.frameIndex);
@@ -354,7 +464,6 @@
       }
 
       if (state.frameIndex >= green) {
-        // GREEN LIGHT flash, then hold and open guessing
         $("green-flash").hidden = false;
         setTimeout(() => {
           $("green-flash").hidden = true;
@@ -522,11 +631,53 @@
       state.pollTimer = setTimeout(keepPolling, resolution.retry_after_ms || 2000);
     }
 
-    const realFps = state.round.fps || 0.5;
-    const frameMs = (1000 / realFps) / 1.5; // 1.5×
     const green = state.round.green_index;
-    let localIdx = 0; // index into reveal.frames array
     const finishOrder = placeOrderMap(state.reveal.finish_frame_index || {});
+    const vmeta = state.reveal.video || state.round.video;
+
+    if (vmeta && vmeta.url) {
+      setMediaMode(true);
+      try {
+        const abs = new URL(vmeta.url, window.location.origin).href;
+        const cur = video.currentSrc || video.src || "";
+        if (cur !== abs) {
+          await loadVideo(vmeta.url);
+        }
+      } catch (e) {
+        console.error(e);
+        setMediaMode(false);
+      }
+    }
+
+    if (state.usingVideo && vmeta) {
+      const fps = vmeta.fps || state.round.fps || 0.5;
+      const greenT = Number(vmeta.green_time_sec);
+      const lastFrame = green + Math.max(0, state.revealImages.length - 1);
+      video.currentTime = greenT;
+      video.playbackRate = 1.25;
+      const tick = () => {
+        if (state.phase !== "REVEAL") return;
+        const t = video.currentTime;
+        const absFrame = Math.min(lastFrame, Math.max(green, frameFromTime(t, fps)));
+        syncCanvasSize();
+        drawRevealOverlay(absFrame, finishOrder);
+        if (video.ended || t >= video.duration - 0.05) {
+          video.pause();
+          showResult(resolution);
+          return;
+        }
+        state.videoRaf = requestAnimationFrame(tick);
+      };
+      const playP = video.play();
+      if (playP && playP.catch) playP.catch(() => {});
+      state.videoRaf = requestAnimationFrame(tick);
+      return;
+    }
+
+    setMediaMode(false);
+    const realFps = state.round.fps || 0.5;
+    const frameMs = 1000 / realFps / 1.5; // 1.5×
+    let localIdx = 0;
 
     const play = () => {
       if (state.phase !== "REVEAL") return;
@@ -548,7 +699,6 @@
           showResult(resolution);
           return;
         }
-        // wait for more frames
         state.animTimer = setTimeout(play, frameMs);
         return;
       }
@@ -634,7 +784,8 @@
   });
 
   window.addEventListener("resize", () => {
-    if (!img.src) return;
+    if (!state.usingVideo && !img.src) return;
+    if (state.usingVideo && !video.src) return;
     syncCanvasSize();
     if (state.phase === "PROMPT" || state.phase === "PENDING") {
       drawPromptOverlay(state.round?.green_index ?? 0, {

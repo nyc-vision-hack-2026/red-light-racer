@@ -1,0 +1,38 @@
+{
+  "camera_id": "video_demo",
+  "frame_width": 1348,
+  "frame_height": 902,
+  "staging_zone": [
+    [
+      480,
+      650
+    ],
+    [
+      980,
+      650
+    ],
+    [
+      1000,
+      860
+    ],
+    [
+      450,
+      860
+    ]
+  ],
+  "finish_line": [
+    [
+      480,
+      545
+    ],
+    [
+      1000,
+      575
+    ]
+  ],
+  "travel_direction": [
+    0,
+    -1
+  ],
+  "notes": "Foreground outbound lanes from screen recording crop; green ~ source 0:33"
+}

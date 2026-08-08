@@ -101,13 +101,22 @@ def prompt_view(round_data: dict[str, Any], frame_url_prefix: str = "/frames/") 
             }
         )
 
-    return {
+    out: dict[str, Any] = {
         "id": round_data["id"],
         "fps": round_data["fps"],
         "frames": frame_urls,
         "green_index": green,
         "candidates": candidates,
     }
+    # Optional hybrid playback: client may play MP4 while overlays stay frame-indexed.
+    video = round_data.get("video")
+    if isinstance(video, dict) and video.get("url"):
+        out["video"] = {
+            "url": video["url"],
+            "green_time_sec": float(video.get("green_time_sec", green / max(round_data["fps"], 1e-6))),
+            "fps": float(video.get("fps", round_data["fps"])),
+        }
+    return out
 
 
 def reveal_view(
@@ -143,13 +152,21 @@ def reveal_view(
 
     finish = {str(k): v for k, v in round_data["finish_frame_index"].items()}
 
-    return {
+    out: dict[str, Any] = {
         "frames": frame_urls,
         "frames_complete": frames_complete and end >= len(round_data["frames"]) - 1,
         "candidates": candidates,
         "finish_line": round_data["finish_line"],
         "finish_frame_index": finish,
     }
+    video = round_data.get("video")
+    if isinstance(video, dict) and video.get("url"):
+        out["video"] = {
+            "url": video["url"],
+            "green_time_sec": float(video.get("green_time_sec", green / max(round_data["fps"], 1e-6))),
+            "fps": float(video.get("fps", round_data["fps"])),
+        }
+    return out
 
 
 def label_for_track(round_data: dict[str, Any], track_id: int) -> str | None:

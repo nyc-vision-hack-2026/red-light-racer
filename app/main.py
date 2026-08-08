@@ -174,4 +174,11 @@ app.mount(
     CachedStaticFiles(directory=str(DATA_DIR / "frames"), cache_control="public, max-age=604800, immutable"),
     name="frames",
 )
+_videos_dir = DATA_DIR / "videos"
+_videos_dir.mkdir(parents=True, exist_ok=True)
+app.mount(
+    "/videos",
+    CachedStaticFiles(directory=str(_videos_dir), cache_control="public, max-age=604800, immutable"),
+    name="videos",
+)
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
