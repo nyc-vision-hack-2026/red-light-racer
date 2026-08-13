@@ -19,7 +19,26 @@ from app.store import ScoreStore, build_score_store
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 STATIC_DIR = ROOT / "static"
-ROUNDS_PATH = Path(os.environ.get("ROUNDS_PATH", DATA_DIR / "rounds.json"))
+
+
+def resolve_round_set(data_dir: Path, name: str) -> tuple[Path, Path]:
+    """Return the rounds document and frame root for a safe named set."""
+    clean_name = name.strip()
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", clean_name):
+        raise ValueError("ROUND_SET must contain only letters, numbers, '-' or '_'")
+    root = data_dir if clean_name == "classic" else data_dir / "round_sets" / clean_name
+    return root / "rounds.json", root / "frames"
+
+
+ROUND_SET = os.environ.get("ROUND_SET", "classic").strip()
+if os.environ.get("ROUNDS_PATH"):
+    ROUNDS_PATH = Path(os.environ["ROUNDS_PATH"])
+    FRAMES_DIR = Path(os.environ.get("FRAMES_PATH", DATA_DIR / "frames"))
+else:
+    ROUNDS_PATH, FRAMES_DIR = resolve_round_set(DATA_DIR, ROUND_SET)
+FRAME_NAMESPACE = os.environ.get("FRAME_NAMESPACE", ROUND_SET).strip()
+if not re.fullmatch(r"[A-Za-z0-9_-]+", FRAME_NAMESPACE):
+    raise ValueError("FRAME_NAMESPACE must contain only letters, numbers, '-' or '_'")
 
 _source: StaticRoundSource | None = None
 _store: ScoreStore | None = None
@@ -31,6 +50,7 @@ def get_source() -> StaticRoundSource:
         drip = os.environ.get("DRIP_REVEAL", "0") == "1"
         _source = StaticRoundSource(
             ROUNDS_PATH,
+            frame_url_prefix=f"/frames/{FRAME_NAMESPACE}/",
             drip_reveal=drip,
             drip_retry_after_ms=int(os.environ.get("DRIP_RETRY_MS", "6000")),
             pending_retry_after_ms=int(os.environ.get("PENDING_RETRY_MS", "0")),
@@ -75,7 +95,7 @@ class ScoreBody(BaseModel):
 @app.get("/healthz")
 @app.get("/health")
 def healthz() -> dict:
-    return {"ok": True}
+    return {"ok": True, "round_set": ROUND_SET, "frame_namespace": FRAME_NAMESPACE}
 
 
 @app.post("/api/session")
@@ -170,8 +190,8 @@ class CachedStaticFiles(StaticFiles):
 
 
 app.mount(
-    "/frames",
-    CachedStaticFiles(directory=str(DATA_DIR / "frames"), cache_control="public, max-age=604800, immutable"),
+    f"/frames/{FRAME_NAMESPACE}",
+    CachedStaticFiles(directory=str(FRAMES_DIR), cache_control="public, max-age=604800, immutable"),
     name="frames",
 )
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

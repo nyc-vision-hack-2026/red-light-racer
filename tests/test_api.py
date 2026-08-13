@@ -9,9 +9,26 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.scoring import clamp_elapsed_ms, compute_points
+from app.main import resolve_round_set
 
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def test_resolve_round_set_keeps_classic_and_generated_data_separate():
+    data_dir = Path("C:/round-data")
+    classic_rounds, classic_frames = resolve_round_set(data_dir, "classic")
+    generated_rounds, generated_frames = resolve_round_set(data_dir, "roboflow")
+
+    assert classic_rounds == data_dir / "rounds.json"
+    assert classic_frames == data_dir / "frames"
+    assert generated_rounds == data_dir / "round_sets" / "roboflow" / "rounds.json"
+    assert generated_frames == data_dir / "round_sets" / "roboflow" / "frames"
+
+
+def test_resolve_round_set_rejects_path_traversal():
+    with pytest.raises(ValueError, match="ROUND_SET"):
+        resolve_round_set(Path("C:/round-data"), "../outside")
 
 
 def test_clamp_elapsed():
@@ -79,6 +96,7 @@ def test_prompt_hides_answer(client):
     assert "finish_frame_index" not in raw
     assert body["id"] == rid
     assert "frames" in body and len(body["frames"]) == body["green_index"] + 1
+    assert all(frame.startswith("/frames/classic/") for frame in body["frames"])
 
 
 def test_resolution_pending_then_resolved(client):

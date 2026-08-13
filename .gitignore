@@ -9,3 +9,4 @@ data/tracks/
 captures/
 *.egg-info/
 .pytest_cache/
+/local

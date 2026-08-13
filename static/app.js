@@ -239,8 +239,8 @@
     }
   }
 
-  function placeOrderMap(ffi) {
-    const entries = Object.entries(ffi)
+  function placeOrderMap(finishTimes) {
+    const entries = Object.entries(finishTimes)
       .filter(([, v]) => v !== null && v !== undefined)
       .map(([k, v]) => [Number(k), Number(v)])
       .sort((a, b) => a[1] - b[1]);
@@ -526,7 +526,9 @@
     const frameMs = (1000 / realFps) / 1.5; // 1.5×
     const green = state.round.green_index;
     let localIdx = 0; // index into reveal.frames array
-    const finishOrder = placeOrderMap(state.reveal.finish_frame_index || {});
+    const finishOrder = placeOrderMap(
+      state.reveal.finish_crossing_time || state.reveal.finish_frame_index || {}
+    );
 
     const play = () => {
       if (state.phase !== "REVEAL") return;

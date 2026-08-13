@@ -39,9 +39,34 @@ def assert_round_valid(round_data: dict[str, Any]) -> None:
     if len(finishers) < 2:
         raise RoundValidationError(f"{rid}: need ≥2 finishers, got {len(finishers)}")
 
-    finishers_sorted = sorted(finishers, key=lambda x: x[1])
-    if len(finishers_sorted) >= 2 and finishers_sorted[0][1] == finishers_sorted[1][1]:
-        raise RoundValidationError(f"{rid}: tie at finish frame {finishers_sorted[0][1]}")
+    # Low-frame-rate sources can show two cars crossing in the same image.  An
+    # optional interpolated crossing time preserves their order without lying
+    # about the frame in which either car crossed.  Older rounds continue to
+    # use finish_frame_index as their timing source.
+    crossing = round_data.get("finish_crossing_time") or {}
+    crossing_norm: dict[int, float | None] = {}
+    for k, v in crossing.items():
+        crossing_norm[int(k)] = None if v is None else float(v)
+
+    if crossing_norm:
+        timed_finishers = [
+            (tid, crossing_norm.get(tid))
+            for tid, _idx in finishers
+            if crossing_norm.get(tid) is not None
+        ]
+        if len(timed_finishers) < 2:
+            raise RoundValidationError(
+                f"{rid}: need ≥2 interpolated finish times, got {len(timed_finishers)}"
+            )
+        finishers_sorted = sorted(timed_finishers, key=lambda x: float(x[1]))
+        if abs(float(finishers_sorted[0][1]) - float(finishers_sorted[1][1])) < 1e-6:
+            raise RoundValidationError(
+                f"{rid}: tie at interpolated finish time {finishers_sorted[0][1]}"
+            )
+    else:
+        finishers_sorted = sorted(finishers, key=lambda x: x[1])
+        if len(finishers_sorted) >= 2 and finishers_sorted[0][1] == finishers_sorted[1][1]:
+            raise RoundValidationError(f"{rid}: tie at finish frame {finishers_sorted[0][1]}")
 
     winner = round_data.get("winner_track_id")
     if winner is None:
@@ -143,13 +168,18 @@ def reveal_view(
 
     finish = {str(k): v for k, v in round_data["finish_frame_index"].items()}
 
-    return {
+    out = {
         "frames": frame_urls,
         "frames_complete": frames_complete and end >= len(round_data["frames"]) - 1,
         "candidates": candidates,
         "finish_line": round_data["finish_line"],
         "finish_frame_index": finish,
     }
+    if round_data.get("finish_crossing_time"):
+        out["finish_crossing_time"] = {
+            str(k): v for k, v in round_data["finish_crossing_time"].items()
+        }
+    return out
 
 
 def label_for_track(round_data: dict[str, Any], track_id: int) -> str | None:
